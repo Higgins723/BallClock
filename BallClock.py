@@ -1,3 +1,5 @@
+import time
+
 class BallClock:
     def __init__(self, ballCount):
         self.ballCount = ballCount
@@ -9,13 +11,18 @@ class BallClock:
         self.hours = []
 
     def startClock(self):
+        startTime = time.time()
         while True:
             self.addMinute(self.main.pop(0))
             if self.isBallBackToStart() == True:
                 break
+        endTime = time.time()
 
         message = "%s balls cycle after %s days." %(self.ballCount, self.halfDays / 2)
         print message
+
+        print "Completed in %s milliseconds (%s seconds)" %(((endTime-startTime) * 1000), endTime-startTime)
+
         return message
 
     def createBallSet(self):

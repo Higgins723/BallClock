@@ -5,6 +5,7 @@ class BallClock:
         self.ballCount = ballCount
         self.halfDays = 0
         self.main = self.createBallSet()
+        # createQueue is for comparisons
         self.createQueue = self.createBallSet()
         self.minutes = []
         self.fiveMinutes = []
@@ -25,12 +26,14 @@ class BallClock:
 
         return message
 
+    # creates the balls in an array for both main and the comparison row/track: createQueue
     def createBallSet(self):
         queue = []
         for ball_number in range(1, self.ballCount + 1):
             queue.append(ball_number)
         return queue
 
+    # this function checks to see if main has returned to it's initial state created in createQueue
     def isBallBackToStart(self):
         if len(self.main) != self.ballCount:
             return False
@@ -39,6 +42,7 @@ class BallClock:
                 return False
         return True
 
+    # this function adds a ball to the minute row/track
     def addMinute(self, ball):
         if len(self.minutes) < 4:
             self.minutes.append(ball)
@@ -46,6 +50,7 @@ class BallClock:
             self.clearMinutesRow()
             self.addFiveMinutes(ball)
 
+    # this function adds a ball to the five minute row/track
     def addFiveMinutes(self, ball):
         if len(self.fiveMinutes) < 11:
             self.fiveMinutes.append(ball)
@@ -53,6 +58,7 @@ class BallClock:
             self.clearFiveMinutesRow()
             self.addHour(ball)
 
+    # this function adds a ball to the hour row/track
     def addHour(self, ball):
         if len(self.hours) < 11:
             self.hours.append(ball)
@@ -61,24 +67,28 @@ class BallClock:
             self.main.append(ball)
             self.halfDays += 1
 
+    # this function clears the minutes row/track
     def clearMinutesRow(self):
         while len(self.minutes) > 0:
             self.main.append(self.minutes.pop())
 
         return self.minutes
 
+    # this function clears the five minute row/track
     def clearFiveMinutesRow(self):
         while len(self.fiveMinutes) > 0:
             self.main.append(self.fiveMinutes.pop())
 
         return self.fiveMinutes
 
+    # this function clears the hours row/track
     def clearHoursRow(self):
         while len(self.hours) > 0:
             self.main.append(self.hours.pop())
 
         return self.hours
 
+# BallClockMinutes creates a ball clock with x number of balls and a minute_count to track the time elapsed
 class BallClockMinutes(BallClock):
     def __init__(self, ballCount, minute_count):
         BallClock.__init__(self, ballCount)
